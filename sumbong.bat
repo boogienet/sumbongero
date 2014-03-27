@@ -1,0 +1,1 @@
+ruby -Ilib bin/sumbong.rb
