@@ -23,4 +23,9 @@ options_parser = OptionParser.new do |opts|
 end
 
 options_parser.parse!
-puts @options.inspect
+
+case @options[:client].downcase
+  when "gmail"
+    @c = Sumbongero::Clients::GMail.new(@options[:user], @options[:password])
+end
+@r = Sumbongero::Reporters::Reporter.new(@c)
