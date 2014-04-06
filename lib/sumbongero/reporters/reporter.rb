@@ -6,7 +6,12 @@ module Sumbongero
       attr_accessor :client
       def initialize(c)
         @client = c
-        @client.query
+        unless @client.nil?
+          @client.query
+        end
+      end
+      def report
+        puts @client.data
       end
     end
   end
