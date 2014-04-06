@@ -26,7 +26,7 @@ options_parser.parse!
 
 case @options[:client].downcase
   when "gmail"
-    @c = Sumbongero::Clients::GMail.new(@options[:user], @options[:password])
+    @c = Sumbongero::Clients::GMail.new(@options[:user], @options[:password], @options[:folders])
   when "outlook"
     load 'sumbongero/clients/outlook.rb'
     @c = Sumbongero::Clients::Outlook.new(@options[:folders])

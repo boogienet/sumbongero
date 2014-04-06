@@ -7,8 +7,12 @@ module Sumbongero
       attr_accessor :username, :password
       attr_accessor :gmail
 
-      def initialize(username, password)
+      def initialize(username, password, folders = {})
         super()
+        unless folders.nil?
+          @folders = folders
+        end
+
         @username = username
         @password = password
 
@@ -22,8 +26,16 @@ module Sumbongero
           @stats[:inbox] = @gmail.inbox.count
         end
 
+        @stats[:deleted] = @gmail.mailbox('[Gmail]/Trash').count(:on => @whichday)
         @stats[:sent] = @gmail.mailbox('[Gmail]/Sent Mail').count(:on => @whichday)
-        puts @stats
+
+        @folders_stats = {}
+        @folders.each do |folder|
+          @folders_stats[folder.to_sym] = @gmail.mailbox(folder).count(:on => @whichday)
+        end
+
+        @stats[:folders] = @folders_stats
+        @data = @stats
       end
     end
   end

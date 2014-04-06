@@ -10,7 +10,6 @@ module Sumbongero
 
     class Outlook < Client
       attr_accessor :client, :mapi
-      attr_accessor :data
 
       def initialize(folder = nil)
         super()

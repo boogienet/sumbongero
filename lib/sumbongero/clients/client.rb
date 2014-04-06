@@ -3,6 +3,7 @@ module Sumbongero
   module Clients
     class Client 
       attr_accessor :stats, :whichday
+      attr_accessor :data
       attr_accessor :folders
       def initialize
         @folders = {}
