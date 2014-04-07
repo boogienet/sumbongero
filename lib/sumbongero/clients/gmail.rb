@@ -22,6 +22,7 @@ module Sumbongero
         })
       end
       def query
+        @stats[:query_date] = @whichday.to_s
         if @whichday == Date.today
           @stats[:inbox] = @gmail.inbox.count
         end
