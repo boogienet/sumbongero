@@ -81,8 +81,8 @@ module Sumbongero
         end
 
         @folders_ws.list.push(folder_data)
-        # @folders_ws.save()
-        # @base_ws.save()
+        @folders_ws.save()
+        @base_ws.save()
       end
     end
   end
