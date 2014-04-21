@@ -1,8 +1,6 @@
 require "sumbongero/reporters/reporter"
 require "google_drive"
 
-# TODO: if the row already exist, then just overwrite
-
 module Sumbongero
   module Reporters
     class GDriveConst
@@ -65,24 +63,46 @@ module Sumbongero
 
       def report
         @base_ws = @spreadsheet.worksheet_by_title(GDriveConst::WS_BASE_DATA)
+        @folders_ws = @spreadsheet.worksheet_by_title(GDriveConst::WS_FOLDERS_DATA)
 
-        @base_ws.list.push({
+        _base_data = {
           :Date => @client.data[:query_date],
           :Inbox => @client.data[:inbox],
           :Deleted => @client.data[:deleted],
           :Sent => @client.data[:sent]
-        })
-
-        @folders_ws = @spreadsheet.worksheet_by_title(GDriveConst::WS_FOLDERS_DATA)
-        folder_data = {}
+        }
+        _folder_data = {}
         @client.data[:folders].each_key do |folder|
-          folder_data[:Date] = @client.data[:query_date]
-          folder_data[folder] = @client.data[:folders][folder]
+          _folder_data[:Date] = @client.data[:query_date]
+          _folder_data[folder] = @client.data[:folders][folder]
         end
 
-        @folders_ws.list.push(folder_data)
+        in_spreadsheet = row_exist?(@client.data[:query_date])
+        if in_spreadsheet == nil
+          @base_ws.list.push(_base_data)
+          @folders_ws.list.push(_folder_data)
+        else
+          @base_ws.list[in_spreadsheet] = _base_data
+          @folders_ws.list[in_spreadsheet] = _folder_data
+        end
         @folders_ws.save()
         @base_ws.save()
+      end
+
+      def row_exist?(qd)
+        # build an array of the dates (of rows) saved in ths spreadsheet
+        # to compare the passed in date with
+        _row_exist = nil
+        dates = []
+        if @base_ws.list.size != 0
+          (0..@base_ws.list.size-1).each do |index|
+            dates << @base_ws.list[index]["Date"]
+          end
+          qd_formatted = Date.parse(qd).strftime("%-m/%d/%Y")
+          _row_exist = dates.rindex qd_formatted
+          # puts " _row_exist: #{_row_exist} \n qd_formatted #{qd_formatted} \n\n dates array #{dates}"
+        end
+        _row_exist
       end
     end
   end
