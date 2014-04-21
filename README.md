@@ -1,24 +1,27 @@
 # Sumbongero
 
-TODO: Write a gem description
+Sumbongero is a tagalog word for tattle-tale.
+
+Sumbongero is an email reporting library. It takes your
+email information, and reports on the count within folders.
+
+It considers 3 folders as its "base":
+
+- Inbox
+- Sent
+- Deleted
+
+You can tell it to report on other folders.
+
+The plan is to use this for metrics for GTD and Inbox-Zero.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+There is no gemfile for this yet. To install:
 
-    gem 'sumbongero'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sumbongero
-
-## Usage
-
-TODO: Write usage instructions here
+- Clone the repo
+- Do a 'bundle install'
+- Configure
 
 ## Contributing
 
@@ -27,3 +30,7 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## TODO:
+
+- Read configuration from environment variables
